@@ -1,1 +1,609 @@
-WIP
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>itelix – IT, Daten & Web für Kleinunternehmen und Mittelstand</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F7F5F0;
+    --ink: #1E2A35;
+    --ink-soft: #5A6670;
+    --line: #D8D4CB;
+    --amber: #D98E3A;
+    --amber-soft: #FBE9D4;
+    --card: #FFFFFF;
+    --maxw: 980px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    font-size: 16px;
+  }
+
+  .wrap {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* Eyebrow / mono labels */
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--amber);
+    font-weight: 500;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  /* ---------- HEADER ---------- */
+  header {
+    border-bottom: 1px solid var(--line);
+    background: var(--paper);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+    max-width: var(--maxw);
+    margin: 0 auto;
+  }
+  .logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    letter-spacing: -0.02em;
+  }
+  .logo span { color: var(--amber); }
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    font-size: 0.92rem;
+    font-weight: 500;
+  }
+  .nav-links a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .nav-links a:hover, .nav-links a:focus-visible { color: var(--ink); }
+  .nav-cta {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 9px 18px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 600;
+    transition: background 0.15s;
+  }
+  .nav-cta:hover, .nav-cta:focus-visible { background: var(--amber); color: var(--ink); }
+
+  @media (max-width: 720px) {
+    .nav-links { display: none; }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    padding: 90px 0 70px;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-rows {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 47px,
+      var(--line) 47px,
+      var(--line) 48px
+    );
+    mask-image: linear-gradient(to bottom, transparent, black 15%, black 60%, transparent);
+    opacity: 0.6;
+  }
+  .hero-inner { position: relative; z-index: 1; max-width: 720px; }
+  .hero h1 {
+    font-size: clamp(2.4rem, 5.5vw, 3.6rem);
+    line-height: 1.12;
+    margin: 18px 0 22px;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--amber);
+  }
+  .hero p.lead {
+    font-size: 1.15rem;
+    color: var(--ink-soft);
+    max-width: 540px;
+    margin-bottom: 34px;
+  }
+  .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  .btn {
+    display: inline-block;
+    padding: 13px 26px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: transform 0.12s, box-shadow 0.12s;
+  }
+  .btn-primary {
+    background: var(--amber);
+    color: var(--ink);
+  }
+  .btn-primary:hover, .btn-primary:focus-visible {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(217,142,58,0.35);
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--line);
+  }
+  .btn-ghost:hover, .btn-ghost:focus-visible {
+    border-color: var(--ink);
+  }
+
+  /* ---------- SERVICES GRID ---------- */
+  .services {
+    padding: 80px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .section-head { max-width: 600px; margin-bottom: 50px; }
+  .section-head .eyebrow { display: block; margin-bottom: 10px; }
+  .section-head h2 { font-size: clamp(1.7rem, 4vw, 2.3rem); }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  @media (max-width: 720px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+  .card {
+    background: var(--card);
+    padding: 32px 30px;
+    transition: background 0.18s;
+  }
+  .card:hover { background: var(--amber-soft); }
+  .card .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--amber);
+    margin-bottom: 14px;
+    display: block;
+  }
+  .card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+  }
+  .card p { color: var(--ink-soft); font-size: 0.96rem; }
+  .card a.more {
+    display: inline-block;
+    margin-top: 14px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--amber);
+    padding-bottom: 2px;
+  }
+  .card a.more:hover, .card a.more:focus-visible { color: var(--amber); }
+
+  /* ---------- DETAIL SECTIONS ---------- */
+  .detail {
+    padding: 70px 0;
+    border-bottom: 1px solid var(--line);
+    scroll-margin-top: 80px;
+  }
+  .detail:nth-of-type(even) { background: var(--card); }
+  .detail-inner {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 50px;
+  }
+  @media (max-width: 720px) {
+    .detail-inner { grid-template-columns: 1fr; gap: 24px; }
+  }
+  .detail-label .eyebrow { display: block; margin-bottom: 12px; }
+  .detail-label h2 { font-size: 1.6rem; line-height: 1.2; }
+  .detail-body p { color: var(--ink-soft); margin-bottom: 14px; max-width: 620px; }
+  .detail-body ul {
+    list-style: none;
+    margin: 18px 0;
+  }
+  .detail-body li {
+    padding-left: 24px;
+    position: relative;
+    margin-bottom: 10px;
+    color: var(--ink);
+    font-size: 0.97rem;
+  }
+  .detail-body li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--amber);
+    font-weight: 600;
+  }
+  .detail-quote {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--ink);
+    border-left: 3px solid var(--amber);
+    padding-left: 18px;
+    margin-top: 22px;
+    max-width: 540px;
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about {
+    padding: 80px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .about-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: start;
+  }
+  @media (max-width: 720px) {
+    .about-inner { grid-template-columns: 1fr; }
+  }
+  .about h2 { font-size: clamp(1.7rem, 4vw, 2.3rem); margin-bottom: 20px; }
+  .about p { color: var(--ink-soft); margin-bottom: 14px; }
+  .about-principles {
+    border: 1px solid var(--line);
+    background: var(--card);
+    padding: 28px;
+  }
+  .about-principles .eyebrow { display: block; margin-bottom: 16px; }
+  .principle {
+    display: flex;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .principle:last-child { border-bottom: none; }
+  .principle .pnum {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--amber);
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+  .principle p { margin: 0; font-size: 0.94rem; color: var(--ink); }
+
+  /* ---------- CONTACT ---------- */
+  .contact {
+    padding: 80px 0 90px;
+  }
+  .contact-inner {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 50px;
+  }
+  @media (max-width: 720px) {
+    .contact-inner { grid-template-columns: 1fr; }
+  }
+  .contact h2 { font-size: clamp(1.7rem, 4vw, 2.3rem); margin-bottom: 16px; }
+  .contact p { color: var(--ink-soft); margin-bottom: 10px; max-width: 380px; }
+  .contact-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+    margin-top: 28px;
+  }
+  .contact-meta a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); }
+
+  form {
+    display: grid;
+    gap: 16px;
+  }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  input, select, textarea {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.97rem;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--card);
+    color: var(--ink);
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: 2px solid var(--amber);
+    outline-offset: 1px;
+    border-color: var(--amber);
+  }
+  textarea { resize: vertical; min-height: 110px; font-family: 'Inter', sans-serif; }
+  .submit-row { display: flex; align-items: center; gap: 16px; margin-top: 4px; }
+  .submit-btn {
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 13px 28px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.15s;
+    font-family: 'Inter', sans-serif;
+  }
+  .submit-btn:hover, .submit-btn:focus-visible { background: var(--amber); color: var(--ink); }
+  .form-note { font-size: 0.85rem; color: var(--ink-soft); }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 28px 0;
+  }
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+  .footer-inner a { color: var(--ink-soft); text-decoration: none; }
+  .footer-inner a:hover { color: var(--ink); }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; scroll-behavior: auto !important; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo">itel<span>i</span>x</div>
+    <nav class="nav-links">
+      <a href="#daten">Daten &amp; Migration</a>
+      <a href="#web">Web &amp; Marketing</a>
+      <a href="#analyse">Analyse</a>
+      <a href="#it">IT-Abteilung</a>
+    </nav>
+    <a href="#kontakt" class="nav-cta">Kontakt aufnehmen</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-rows" aria-hidden="true"></div>
+  <div class="wrap hero-inner">
+    <span class="eyebrow">IT · Daten · Web — für kleine Unternehmen und Mittelstand</span>
+    <h1>Ich bringe Ordnung in Ihre Daten — und sage Ihnen <em>im Klartext</em>, was sie bedeuten.</h1>
+    <p class="lead">Sie haben keine eigene IT-Abteilung? Muss auch nicht. Ich übernehme Datenbereinigung, Systemwechsel, Webauftritt und Analyse — verständlich, remote und ohne Fachchinesisch.</p>
+    <div class="hero-ctas">
+      <a href="#kontakt" class="btn btn-primary">Kostenloses Erstgespräch</a>
+      <a href="#daten" class="btn btn-ghost">Leistungen ansehen</a>
+    </div>
+  </div>
+</section>
+
+<section class="services">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Überblick</span>
+      <h2>Vier Bereiche, ein Ansprechpartner</h2>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <span class="num">01</span>
+        <h3>Daten &amp; Migration</h3>
+        <p>Datenbereinigung, Strukturierung und Vorbereitung für Systemwechsel — egal ob Betriebssystem oder Warenwirtschaft.</p>
+        <a class="more" href="#daten">Mehr erfahren →</a>
+      </div>
+      <div class="card">
+        <span class="num">02</span>
+        <h3>Web &amp; Marketing</h3>
+        <p>Landingpages, Webseiten und Shop-Anbindung — modern, schnell und auf das Ziel ausgerichtet.</p>
+        <a class="more" href="#web">Mehr erfahren →</a>
+      </div>
+      <div class="card">
+        <span class="num">03</span>
+        <h3>Datenanalyse im Klartext</h3>
+        <p>KPIs, Schwachstellen und ehrliche Einordnung — ich sage Ihnen, was Ihre Zahlen wirklich bedeuten.</p>
+        <a class="more" href="#analyse">Mehr erfahren →</a>
+      </div>
+      <div class="card">
+        <span class="num">04</span>
+        <h3>Die kleine IT-Abteilung</h3>
+        <p>Unkomplizierte Unterstützung bei IT-Fragen — als externer Ansprechpartner, wenn Sie ihn brauchen.</p>
+        <a class="more" href="#it">Mehr erfahren →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="daten" class="detail">
+  <div class="wrap detail-inner">
+    <div class="detail-label">
+      <span class="eyebrow">01 — Daten &amp; Migration</span>
+      <h2>Saubere Daten, sorgenfreier Wechsel</h2>
+    </div>
+    <div class="detail-body">
+      <p>Ein Wechsel des Betriebssystems oder der Warenwirtschaft ist die perfekte Chance für einen Neuanfang — wenn das Datenchaos nicht wäre. Alte Systeme stecken oft voller Dubletten, Formatierungsfehler und Datenleichen. Wer das ungeprüft überträgt, riskiert Probleme im neuen System.</p>
+      <ul>
+        <li>Bestandsanalyse: Ich prüfe, ob Ihre Altdaten zum neuen System passen.</li>
+        <li>Bereinigung: Dubletten entfernen, Formate vereinheitlichen, Fehler korrigieren.</li>
+        <li>Import-Vorbereitung: Fertige CSV-/Excel-Dateien, exakt im Format Ihres neuen Systems.</li>
+      </ul>
+      <p class="detail-quote">Überlassen Sie die mühsame Datenaufbereitung mir — damit Ihr Systemwechsel nicht zum Albtraum wird.</p>
+    </div>
+  </div>
+</section>
+
+<section id="web" class="detail">
+  <div class="wrap detail-inner">
+    <div class="detail-label">
+      <span class="eyebrow">02 — Web &amp; Marketing</span>
+      <h2>Ihr Auftritt – unkompliziert und modern</h2>
+    </div>
+    <div class="detail-body">
+      <p>Eine gute Landingpage hat ein klares Ziel und muss kein riesiges Projekt sein. Ich setze sie mit modernen Werkzeugen um — passend zu Ihrem Budget und Ihrer Zielgruppe.</p>
+      <ul>
+        <li>Landingpages &amp; Webseiten für lokale Unternehmen und Selbstständige.</li>
+        <li>Shop-Anbindung (z. B. WooCommerce, Shopify) für den Online-Verkauf.</li>
+        <li>Auf Wunsch: Setup von Werbeanzeigen, damit die ersten Besucher auch kommen.</li>
+      </ul>
+      <p class="detail-quote">Eine Seite, die genau das tut, was sie soll — nicht mehr, nicht weniger.</p>
+    </div>
+  </div>
+</section>
+
+<section id="analyse" class="detail">
+  <div class="wrap detail-inner">
+    <div class="detail-label">
+      <span class="eyebrow">03 — Datenanalyse im Klartext</span>
+      <h2>Verstehen, was Ihr Business antreibt</h2>
+    </div>
+    <div class="detail-body">
+      <p>Zahlen lügen nicht — aber sie sind oft schwer zu lesen. Viele Tools blenden mit Erfolgszahlen, die am Ende keinen Umsatz bringen. Ich räume mit irreführenden Informationen auf.</p>
+      <ul>
+        <li>KPIs, die zählen: die wichtigsten Kennzahlen, übersichtlich und ohne Fachchinesisch.</li>
+        <li>Schwachstellen aufdecken: wo verlieren Sie Kunden oder Geld?</li>
+        <li>Unabhängiger Daten-Check: ehrliche Einordnung Ihrer Marketing-Berichte.</li>
+      </ul>
+      <p class="detail-quote">Ich lese Ihre Daten und sage Ihnen ehrlich, was funktioniert — und was nicht.</p>
+    </div>
+  </div>
+</section>
+
+<section id="it" class="detail">
+  <div class="wrap detail-inner">
+    <div class="detail-label">
+      <span class="eyebrow">04 — Die kleine IT-Abteilung</span>
+      <h2>Der digitale Allrounder für Ihr Unternehmen</h2>
+    </div>
+    <div class="detail-body">
+      <p>Sie haben kein Budget für einen Vollzeit-ITler? Ich halte Ihnen den Rücken frei. Gemeinsam besprechen wir, was Sie wirklich brauchen — und ich kümmere mich darum.</p>
+      <ul>
+        <li>WLAN, Netzwerk und Backups — eingerichtet und im Blick.</li>
+        <li>Sicherheit für Geräte und Daten, verständlich erklärt.</li>
+        <li>Der Markt verändert sich schnell. Jede Anfrage bekommt eine frische Prüfung, statt einer Lösung von der Stange — damit am Ende die zum aktuellen Zeitpunkt effektivste Option steht, nicht nur die naheliegendste.</li>
+      </ul>
+      <p class="detail-quote">Jedes Unternehmen ist anders und verdient eine effiziente passgenaue Lösung.</p>
+    </div>
+  </div>
+</section>
+
+<section class="about">
+  <div class="wrap about-inner">
+    <div>
+      <span class="eyebrow">Über itelix</span>
+      <h2>Ein Ansprechpartner statt vieler Schnittstellen</h2>
+      <p>itelix ist die Anlaufstelle für Kleinunternehmen, die jemanden brauchen, der IT, Daten und Web zusammen denkt — ohne dass dafür drei verschiedene Dienstleister koordiniert werden müssen.</p>
+      <p>Ich arbeite remote, strukturiert und ehrlich. Wenn ein Thema neu für mich ist, sage ich das — und finde die passende Lösung, statt eine Standardantwort zu geben.</p>
+    </div>
+    <div class="about-principles">
+      <span class="eyebrow">Wie ich arbeite</span>
+      <div class="principle">
+        <span class="pnum">—</span>
+        <p>Klartext statt Fachchinesisch — auch bei komplexen Themen.</p>
+      </div>
+      <div class="principle">
+        <span class="pnum">—</span>
+        <p>Remote-first: schnelle Abstimmung, kein Zeitverlust durch Anfahrten.</p>
+      </div>
+      <div class="principle">
+        <span class="pnum">—</span>
+        <p>Gründliche Recherche, bevor eine Empfehlung ausgesprochen wird.</p>
+      </div>
+      <div class="principle">
+        <span class="pnum">—</span>
+        <p>Ehrliche Einschätzung — auch wenn die Antwort "das lohnt sich nicht" lautet.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="kontakt" class="contact">
+  <div class="wrap contact-inner">
+    <div>
+      <span class="eyebrow">Kontakt</span>
+      <h2>Lassen Sie uns sprechen</h2>
+      <p>Beschreiben Sie kurz Ihr Anliegen — ich melde mich in der Regel innerhalb von 1–2 Werktagen mit einer ersten Einschätzung.</p>
+      <div class="contact-meta">
+        <div>E-Mail: <a href="mailto:hallo@itelix.de">hallo@itelix.de</a></div>
+        <div style="margin-top:6px;">itelix.de</div>
+      </div>
+    </div>
+    <form>
+      <div class="field">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="field">
+        <label for="email">E-Mail</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="field">
+        <label for="topic">Worum geht's?</label>
+        <select id="topic" name="topic">
+          <option value="daten">Daten &amp; Migration</option>
+          <option value="web">Web &amp; Marketing</option>
+          <option value="analyse">Datenanalyse</option>
+          <option value="it">IT-Unterstützung</option>
+          <option value="sonstiges">Sonstiges</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="message">Nachricht</label>
+        <textarea id="message" name="message" required></textarea>
+      </div>
+      <div class="submit-row">
+        <button type="submit" class="submit-btn">Nachricht senden</button>
+        <span class="form-note">Antwort in der Regel innerhalb von 1–2 Werktagen.</span>
+      </div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div>© 2026 itelix — IT, Daten &amp; Web für Kleinunternehmen und Mittelstand</div>
+    <div><a href="#kontakt">Kontakt</a></div>
+  </div>
+</footer>
+
+</body>
+</html>
